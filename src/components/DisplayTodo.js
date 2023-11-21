@@ -61,7 +61,11 @@ const DisplayTodo = ({
             textAlign: "left",
           }}
         >
-          <Checkbox onClick={handleCheck} checked={checkData} sx={{border:'2px solid red' ,borderRadius:'50%'}} />
+          <Checkbox
+            onClick={handleCheck}
+            checked={checkData}
+            
+          />
           {!edit ? (
             <Typography variant="h5">{text}</Typography>
           ) : (
