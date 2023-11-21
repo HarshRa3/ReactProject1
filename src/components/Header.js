@@ -12,7 +12,7 @@ const Header = ({ addTodoBtn }) => {
         }}
       >
         <Typography variant="h3">Today</Typography>
-        <Fab color="primary" aria-label="add" onClick={addTodoBtn}>
+        <Fab color="success" aria-label="add" onClick={addTodoBtn}>
           <AddIcon />
         </Fab>
       </Box>

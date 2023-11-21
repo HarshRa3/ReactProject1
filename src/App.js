@@ -4,6 +4,8 @@ import Header from "./components/Header";
 import AddTodo from "./components/AddTodo";
 import DisplayTodo from "./components/DisplayTodo";
 import uuid from "react-uuid";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 export const allData = createContext();
 const App = () => {
   const [input, setInput] = useState("");
@@ -22,11 +24,20 @@ const App = () => {
   const addData = () => {
     if (input.trim() !== "") {
       setData([...data, { id: uuid(), text: input, check: false }]);
+      toast.success("Your Todo Has been Added", {
+        position: "top-center",
+        autoClose: 2000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });    
       setInput("");
-      setAddTodo(true);
     } else {
       setInput("");
     }
+    setAddTodo(true);
+  
   };
 
   const saveEdit = (id, updatedvalue) => {
@@ -37,10 +48,33 @@ const App = () => {
         )
       );
     }
+    toast.success("Your Todo Has been Edited", {
+      position: "top-center",
+      autoClose: 2000,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+
   };
 
-  const deleteData = (id) => {
-    setData((prevData) => prevData.filter((e) => e.id !== id));
+   const deleteData = (index) => {
+    if (data.length > 0) {
+      localStorage.clear();
+      setData(data.filter((e) => e.id !== index));
+    } else {
+      setData(data.filter((e) => e.id !== index));
+    }
+
+    toast.success("Your Todo Has been Deleted", {
+      position: "top-center",
+      autoClose: 2000,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
   };
 
   const handleKeyPress = (e) => {
@@ -85,6 +119,15 @@ const App = () => {
           ))
         )}
       </Box>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </allData.Provider>
   );
 };
