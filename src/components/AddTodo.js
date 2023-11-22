@@ -1,9 +1,15 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import { Box, Button, TextField,inputRef, Typography } from "@mui/material";
+import React, { useContext, useEffect, useRef } from "react";
 import { allData } from "../App";
 
 const AddTodo = ({ cancelTodo, onChange, onKeyPress }) => {
+  const inputRef = useRef(null);
   const all_Data = useContext(allData);
+  useEffect(() => {
+    if (!all_Data.addTodo) {
+      inputRef.current.focus();
+    }
+  }, [all_Data.addTodo]);
   return (
     <>
       <Box
@@ -37,6 +43,7 @@ const AddTodo = ({ cancelTodo, onChange, onKeyPress }) => {
             onChange={onChange}
             onKeyPress={onKeyPress}
             value={all_Data.input}
+            inputRef={inputRef}
           />
           <Box
             sx={{

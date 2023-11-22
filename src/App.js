@@ -127,7 +127,7 @@ const App = () => {
   };
 
   return (
-    <allData.Provider value={{ addData, saveEdit, data, setTodoType }}>
+    <allData.Provider value={{ addData,addTodo, saveEdit, data, setTodoType }}>
       <Box>
         <Header addTodoBtn={addTodoBtn} />
         {!addTodo && (

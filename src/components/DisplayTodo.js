@@ -41,6 +41,11 @@ const DisplayTodo = ({
     allMyData.saveEdit(id, updateInput);
     setEdit(false);
   };
+  const handleEditInputKeyPress=(e)=>{
+  if(e.key==='Enter'){
+    handleBlur()
+  }
+  }
 
   return (
     <Box sx={{ position: "relative" }}>
@@ -74,6 +79,7 @@ const DisplayTodo = ({
               value={updateInput}
               onBlur={handleBlur}
               onChange={(e) => setUpdateInput(e.target.value)}
+              onKeyPress={(e)=>handleEditInputKeyPress(e)}
               inputRef={inputRef}
             />
           )}
