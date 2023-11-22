@@ -12,12 +12,17 @@ const AddTodo = ({ cancelTodo, onChange, onKeyPress }) => {
           justifyContent: "center",
           alignItems: "center",
           height: "400px",
+          position:'absolute',
+          width:'100%',
+          zIndex:'3',
+          overflow:'hidden'
         }}
       >
         <Box
           sx={{
             width: { xs: "80%", sm: "70%", md: "50%", lg: "30%" },
             border: "2px solid #2823232e",
+            bgcolor:'white'
           }}
         >
           <Typography variant="h5" sx={{ margin: "15px 5%" }}>
@@ -32,6 +37,7 @@ const AddTodo = ({ cancelTodo, onChange, onKeyPress }) => {
             onChange={onChange}
             onKeyPress={onKeyPress}
             value={all_Data.input}
+            
           />
           <Box
             sx={{

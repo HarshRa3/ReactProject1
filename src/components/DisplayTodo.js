@@ -43,7 +43,7 @@ const DisplayTodo = ({
   };
 
   return (
-    <>
+    <Box sx={{position:'relative'}}>
       <Box
         sx={{
           display: "flex",
@@ -67,7 +67,7 @@ const DisplayTodo = ({
             
           />
           {!edit ? (
-            <Typography variant="h5">{text}</Typography>
+            <Typography variant="h5" sx={{wordWrap:'anywhere'}} >{text}</Typography>
           ) : (
             <TextField
               label="Enter text"
@@ -92,6 +92,7 @@ const DisplayTodo = ({
                 color="secondary"
                 aria-label="edit"
                 onClick={handleEdit}
+                sx={{zIndex:1}}
               >
                 <EditIcon />
               </Fab>
@@ -101,6 +102,7 @@ const DisplayTodo = ({
                 color="success"
                 aria-label="add"
                 onClick={handleBlur}
+                sx={{zIndex:1}}
               >
                 <AddIcon />
               </Fab>
@@ -111,6 +113,7 @@ const DisplayTodo = ({
               color="error"
               aria-label="delete"
               onClick={() => deleteData(id)}
+              sx={{zIndex:1}}
             >
               <DeleteIcon />
             </Fab>
@@ -119,7 +122,8 @@ const DisplayTodo = ({
         </Box>
       </Box>
       <Divider />
-    </>
+      
+    </Box>
   );
 };
 

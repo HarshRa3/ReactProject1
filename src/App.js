@@ -1,17 +1,22 @@
+// App.js
 import { Box, Fab } from "@mui/material";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import Header from "./components/Header";
 import AddTodo from "./components/AddTodo";
 import DisplayTodo from "./components/DisplayTodo";
+// import Filter from "./components/Filter";
 import uuid from "react-uuid";
-import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Filter from "./components/FilterButton";
+
 export const allData = createContext();
+
 const App = () => {
   const [input, setInput] = useState("");
   const [data, setData] = useState([]);
-  // const [todoType, setTodotype] = useState("all");
   const [addTodo, setAddTodo] = useState(true);
+  const [todoType, setTodoType] = useState("all");
 
   const addTodoBtn = () => {
     setAddTodo(false);
@@ -31,13 +36,12 @@ const App = () => {
         pauseOnHover: true,
         draggable: true,
         theme: "colored",
-      });    
+      });
       setInput("");
     } else {
       setInput("");
     }
     setAddTodo(true);
-  
   };
 
   const saveEdit = (id, updatedvalue) => {
@@ -47,23 +51,19 @@ const App = () => {
           e.id === id ? { ...e, text: updatedvalue.trim() } : e
         )
       );
+      toast.success("Your Todo Has been Edited", {
+        position: "top-center",
+        autoClose: 2000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
     }
-    toast.success("Your Todo Has been Edited", {
-      position: "top-center",
-      autoClose: 2000,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-    });
-
   };
 
-   const deleteData = (index) => {
+  const deleteData = (index) => {
     if (data.length > 0) {
-      localStorage.clear();
-      setData(data.filter((e) => e.id !== index));
-    } else {
       setData(data.filter((e) => e.id !== index));
     }
 
@@ -90,34 +90,65 @@ const App = () => {
     setData(checkBoxData);
   };
 
+  useEffect(() => {
+    const storedData = localStorage.getItem("Data");
+
+    if (storedData) {
+      try {
+        const parsedData = JSON.parse(storedData);
+        if (JSON.stringify(parsedData) !== JSON.stringify(data)) {
+          setData(parsedData);
+        }
+      } catch (error) {
+        console.error("Error parsing JSON data:", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      localStorage.setItem("Data", JSON.stringify(data));
+    }
+  }, [data]);
+
+  const filteredData = data.filter((todo) => {
+    if (todoType === "completed") {
+      return todo.check;
+    } else if (todoType === "incompleted") {
+      return !todo.check;
+    }
+    return true;
+  });
+
   return (
-    <allData.Provider value={{ addData, saveEdit, data }}>
+    <allData.Provider value={{ addData, saveEdit, data, setTodoType }}>
       <Box>
         <Header addTodoBtn={addTodoBtn} />
-        {!addTodo ? (
+        {!addTodo && (
           <AddTodo
             cancelTodo={cancelTodo}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => handleKeyPress(e)}
           />
-        ) : (
-          data.map((e) => (
-            <DisplayTodo
-              key={e.id}
-              text={e.text}
-              id={e.id}
-              deleteData={() => deleteData(e.id)}
-              handleCheck={() => handleCheck(e.id)}
-              complete={
-                e.check ? (
-                  <Fab size="small" color="success" />
-                ) : (
-                  <Fab size="small" color="error" />
-                )
-              }
-            />
-          ))
         )}
+        <Filter setTodoType={setTodoType} />
+        {filteredData.map((e) => (
+          <DisplayTodo
+            key={e.id}
+            text={e.text}
+            id={e.id}
+            deleteData={() => deleteData(e.id)}
+            handleCheck={() => handleCheck(e.id)}
+            checkData={e.check}
+            complete={
+              e.check ? (
+                <Fab size="small" color="success" />
+              ) : (
+                <Fab size="small" color="error" />
+              )
+            }
+          />
+        ))}
       </Box>
       <ToastContainer
         position="top-center"
