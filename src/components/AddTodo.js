@@ -1,15 +1,18 @@
-import { Box, Button, TextField,inputRef, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import React, { useContext, useEffect, useRef } from "react";
 import { allData } from "../App";
+import AddTodoButton from "./AddTodoButton";
 
 const AddTodo = ({ cancelTodo, onChange, onKeyPress }) => {
+  const allStoreData = useContext(allData);
   const inputRef = useRef(null);
-  const all_Data = useContext(allData);
+
+
   useEffect(() => {
-    if (!all_Data.addTodo) {
+    if (!allStoreData.addTodo) {
       inputRef.current.focus();
     }
-  }, [all_Data.addTodo]);
+  }, [allStoreData.addTodo]);
   return (
     <>
       <Box
@@ -42,7 +45,7 @@ const AddTodo = ({ cancelTodo, onChange, onKeyPress }) => {
             sx={{ width: "90%", marginLeft: "5%" }}
             onChange={onChange}
             onKeyPress={onKeyPress}
-            value={all_Data.input}
+            value={allStoreData.input}
             inputRef={inputRef}
           />
           <Box
@@ -53,10 +56,10 @@ const AddTodo = ({ cancelTodo, onChange, onKeyPress }) => {
               justifyContent: "space-between",
             }}
           >
-            <Button
+            {/* <Button
               variant="text"
               color={"primary"}
-              sx={{ cursor: "pointer" }}
+              // sx={{ cursor: "pointer" }}
               onClick={cancelTodo}
             >
               Cancel
@@ -64,11 +67,14 @@ const AddTodo = ({ cancelTodo, onChange, onKeyPress }) => {
             <Button
               variant="text"
               color={"primary"}
-              sx={{ cursor: "pointer" }}
-              onClick={all_Data.addData}
+              // sx={{ cursor: "pointer" }}
+              onClick={allStoreData.addData}
             >
               Done
-            </Button>
+            </Button> */}
+            <AddTodoButton TodoFunction={cancelTodo} btnTitle='cancel'  />
+            <AddTodoButton TodoFunction={allStoreData.addData} btnTitle='Add'  />
+
           </Box>
         </Box>
       </Box>

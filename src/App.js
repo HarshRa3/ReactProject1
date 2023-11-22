@@ -4,7 +4,6 @@ import React, { createContext, useEffect, useState } from "react";
 import Header from "./components/Header";
 import AddTodo from "./components/AddTodo";
 import DisplayTodo from "./components/DisplayTodo";
-// import Filter from "./components/Filter";
 import uuid from "react-uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,6 +16,7 @@ const App = () => {
   const [data, setData] = useState([]);
   const [addTodo, setAddTodo] = useState(true);
   const [todoType, setTodoType] = useState("all");
+  const [filteredData, setFilteredData] = useState([]);
 
   const addTodoBtn = () => {
     setAddTodo(false);
@@ -89,9 +89,10 @@ const App = () => {
     );
     setData(checkBoxData);
   };
+
   useEffect(() => {
     const storedData = localStorage.getItem("Data");
-  
+
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
@@ -105,7 +106,6 @@ const App = () => {
       }
     }
   }, []);
-  
 
   useEffect(() => {
     if (data.length > 0) {
@@ -113,21 +113,27 @@ const App = () => {
     }
   }, [data]);
 
-  const filteredData = data.filter((todo) => {
-    if (todoType === "completed") {
-      return todo.check;
-    } else if (todoType === "incompleted") {
-      return !todo.check;
-    }
-    return true;
-  });
+  useEffect(() => {
+    const updatedFilteredData = data.filter((todo) => {
+      if (todoType === "completed") {
+        return todo.check;
+      } else if (todoType === "incompleted") {
+        return !todo.check;
+      }
+      return true;
+    });
+    setFilteredData(updatedFilteredData);
+  }, [data, todoType]);
+
   const clearAllData = () => {
     setData([]);
     localStorage.clear();
   };
 
   return (
-    <allData.Provider value={{ addData,addTodo, saveEdit, data, setTodoType }}>
+    <allData.Provider
+      value={{ addData, saveEdit, data, setTodoType, filteredData }}
+    >
       <Box>
         <Header addTodoBtn={addTodoBtn} />
         {!addTodo && (
@@ -137,9 +143,7 @@ const App = () => {
             onKeyPress={(e) => handleKeyPress(e)}
           />
         )}
-        {data.length > 0 && (
-          <Filter todoType={todoType} setTodoType={setTodoType} />
-        )}
+        {data.length > 0 && <Filter todoType={todoType} setTodoType={setTodoType} />}
 
         <Box sx={{ height: "500px", overflow: "auto" }}>
           {filteredData.map((e) => (

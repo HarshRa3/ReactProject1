@@ -24,7 +24,7 @@ const DisplayTodo = ({
   const [edit, setEdit] = useState(false);
   const [updateInput, setUpdateInput] = useState(text);
   const inputRef = useRef(null);
-  const allMyData = useContext(allData);
+  const allStoreData = useContext(allData);
 
   useEffect(() => {
     if (edit) {
@@ -38,7 +38,7 @@ const DisplayTodo = ({
   };
 
   const handleBlur = () => {
-    allMyData.saveEdit(id, updateInput);
+    allStoreData.saveEdit(id, updateInput);
     setEdit(false);
   };
   const handleEditInputKeyPress=(e)=>{
