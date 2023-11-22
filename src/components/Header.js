@@ -11,7 +11,7 @@ const Header = ({ addTodoBtn }) => {
           padding: "20px",
         }}
       >
-        <Typography variant="h3">Today</Typography>
+        <Typography variant="h3" sx={{fontFamily:'SFProDisplay',fontWeight:'bolder'}}>Today</Typography>
         <Fab color="success" aria-label="add" onClick={addTodoBtn}>
           <AddIcon />
         </Fab>

@@ -89,21 +89,23 @@ const App = () => {
     );
     setData(checkBoxData);
   };
-
   useEffect(() => {
     const storedData = localStorage.getItem("Data");
-
+  
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
-        if (JSON.stringify(parsedData) !== JSON.stringify(data)) {
+        if (Array.isArray(parsedData)) {
           setData(parsedData);
+        } else {
+          console.error("Invalid data format:", parsedData);
         }
       } catch (error) {
         console.error("Error parsing JSON data:", error);
       }
     }
   }, []);
+  
 
   useEffect(() => {
     if (data.length > 0) {

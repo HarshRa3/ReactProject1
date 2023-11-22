@@ -51,6 +51,7 @@ const DisplayTodo = ({
           justifyContent: "space-between",
           padding: "10px",
           minHeight: "60px",
+          fontFamily:'SFProDisplay'
         }}
       >
         <Box
@@ -59,11 +60,12 @@ const DisplayTodo = ({
             alignItems: "center",
             width: "50%",
             textAlign: "left",
+            fontFamily:'SFProDisplay'
           }}
         >
           <Checkbox onClick={handleCheck} checked={checkData} />
           {!edit ? (
-            <Typography variant="h5" sx={{ wordWrap: "anywhere" }}>
+            <Typography variant="h5" sx={{ wordWrap: "anywhere", fontFamily:'SFProText'}}>
               {text}
             </Typography>
           ) : (
@@ -92,7 +94,7 @@ const DisplayTodo = ({
                 onClick={handleEdit}
                 sx={{ zIndex: 1 }}
               >
-                <EditIcon />
+                <EditIcon sx={{fontFamily:'SFProDisplay'}} />
               </Fab>
             ) : (
               <Fab
@@ -100,7 +102,7 @@ const DisplayTodo = ({
                 color="success"
                 aria-label="add"
                 onClick={handleBlur}
-                sx={{ zIndex: 1 }}
+                sx={{ zIndex: 1,fontFamily:'SFProDisplay' }}
               >
                 <AddIcon />
               </Fab>
@@ -111,7 +113,7 @@ const DisplayTodo = ({
               color="error"
               aria-label="delete"
               onClick={() => deleteData(id)}
-              sx={{ zIndex: 1 }}
+              sx={{ zIndex: 1,fontFamily:'SFProDisplay' }}
             >
               <DeleteIcon />
             </Fab>
