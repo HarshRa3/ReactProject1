@@ -1,8 +1,8 @@
 // Filter.js
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import React from "react";
 
-const Filter = ({ setTodoType }) => {
+const Filter = ({ todoType, setTodoType }) => {
   const filters = ["all", "completed", "incompleted"];
 
   const handleFilterClick = (filter) => {
@@ -10,24 +10,23 @@ const Filter = ({ setTodoType }) => {
   };
 
   return (
-    <>
+    <Stack direction={'row'} spacing={2} sx={{justifyContent:'center',alignItems:'center',margin:'10px'}} >
       {filters.map((filter) => (
         <Button
           key={filter}
           variant="contained"
-          color="primary"
+          color={todoType === filter ? "secondary" : "primary"}
           onClick={() => handleFilterClick(filter)}
           sx={{
             width: { sm: "60%", xs: "80%", md: "40%", lg: "23%" },
             height: "10%",
             fontSize: "15px",
-            marginRight: "5px",
           }}
         >
           {filter}
         </Button>
       ))}
-    </>
+    </Stack>
   );
 };
 

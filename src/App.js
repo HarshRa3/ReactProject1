@@ -1,5 +1,5 @@
 // App.js
-import { Box, Fab } from "@mui/material";
+import { Box, Button, Fab, Stack } from "@mui/material";
 import React, { createContext, useEffect, useState } from "react";
 import Header from "./components/Header";
 import AddTodo from "./components/AddTodo";
@@ -119,6 +119,10 @@ const App = () => {
     }
     return true;
   });
+  const clearAllData = () => {
+    setData([]);
+    localStorage.clear();
+  };
 
   return (
     <allData.Provider value={{ addData, saveEdit, data, setTodoType }}>
@@ -131,24 +135,36 @@ const App = () => {
             onKeyPress={(e) => handleKeyPress(e)}
           />
         )}
-        <Filter setTodoType={setTodoType} />
-        {filteredData.map((e) => (
-          <DisplayTodo
-            key={e.id}
-            text={e.text}
-            id={e.id}
-            deleteData={() => deleteData(e.id)}
-            handleCheck={() => handleCheck(e.id)}
-            checkData={e.check}
-            complete={
-              e.check ? (
-                <Fab size="small" color="success" />
-              ) : (
-                <Fab size="small" color="error" />
-              )
-            }
-          />
-        ))}
+        {data.length > 0 && (
+          <Filter todoType={todoType} setTodoType={setTodoType} />
+        )}
+
+        <Box sx={{ height: "500px", overflow: "auto" }}>
+          {filteredData.map((e) => (
+            <DisplayTodo
+              key={e.id}
+              text={e.text}
+              id={e.id}
+              deleteData={() => deleteData(e.id)}
+              handleCheck={() => handleCheck(e.id)}
+              checkData={e.check}
+              complete={
+                e.check ? (
+                  <Fab size="small" color="success" sx={{ zIndex: 1 }} />
+                ) : (
+                  <Fab size="small" color="error" sx={{ zIndex: 1 }} />
+                )
+              }
+            />
+          ))}
+        </Box>
+        <Stack direction={"row"} sx={{ justifyContent: "center" }}>
+          {data.length > 0 && (
+            <Button variant="contained" onClick={clearAllData}>
+              Clear all
+            </Button>
+          )}
+        </Stack>
       </Box>
       <ToastContainer
         position="top-center"
